@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +44,30 @@ INSTALLED_APPS = [
 ]
 AUTH_USER_MODEL = 'users.CustomUser'
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',  # JSON 응답만 반환
+    ],
+}
+
+load_dotenv()
+
+# AWS S3 설정
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'john-ecommerce-bucket'
+
+# S3 파일 저장 경로 설정
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+# S3 버킷 URL 설정
+AWS_S3_CUSTOM_DOMAIN = "dnr5lspes3u93.cloudfront.net"
+
+# 미디어 파일 URL
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -57,7 +83,7 @@ ROOT_URLCONF = "ecommerce.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

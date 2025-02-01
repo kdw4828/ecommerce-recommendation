@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+        .product-details {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            <div class="product-details">
+                <h2>{{ product.name }}</h2>
+                <p>Category: {{ product.category }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p><a href="{% url 'get_recommendations' product.id %}">See Recommendations</a></p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

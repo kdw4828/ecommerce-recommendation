@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Recommendations</title>
+</head>
+<body>
+    <h1>Product Recommendations</h1>
+
+    <!-- Content-Based Recommendations -->
+    <h2>Content-Based Recommendations:</h2>
+    <ul>
+        {% for product in content_based %}
+        <li>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" width="100">
+            <span>{{ product.name }}</span>
+            <!-- 피드백 폼 -->
+            <form action="{% url 'submit_feedback' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" name="rating" value="1">Like</button>
+                <button type="submit" name="rating" value="0">Dislike</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Frequently Bought Together -->
+    <h2>Frequently Bought Together:</h2>
+    <ul>
+        {% for product in frequently_bought %}
+        <li>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" width="100">
+            <span>{{ product.name }}</span>
+            <!-- 피드백 폼 -->
+            <form action="{% url 'submit_feedback' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" name="rating" value="1">Like</button>
+                <button type="submit" name="rating" value="0">Dislike</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'product_list' %}">Back to Product List</a>
+</body>
+</html>
